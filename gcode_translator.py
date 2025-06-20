@@ -14,7 +14,7 @@ def Move_Commands(command, i):
         text = ""
         text += G_Code_Move_Commands[command[i]]
         text += " "
-
+        print(command[i])
         match command[i]:
             
             case "linear":
@@ -22,6 +22,9 @@ def Move_Commands(command, i):
 
             case "not":
                 text += Wait_Time(command[i + 1], command[i + 2])
+            
+            case "home":
+                pass
             
             case _:
                 raise ValueError("Invalid Move Command")
@@ -32,7 +35,8 @@ G_Code_Set_Commands ={
     "units to inches": "G20",
     "units to milimeters": "G21",
     "absolute positioning": "G90",
-    "relative positioning": "G91"
+    "relative positioning": "G91",
+    "speed": "G1 F"
 }
 
 def Set_Commands(commands, i):
@@ -40,6 +44,11 @@ def Set_Commands(commands, i):
 
     text += G_Code_Set_Commands[commands[i]]
 
+    match commands[i]:
+        case "speed":
+            text += commands[i + 1]
+        case _:
+            raise ValueError("Invalid Set Command")
     return text
 
 def do_loop(text, i):
@@ -49,7 +58,6 @@ def do_loop(text, i):
     number_of_loops = int(splitted_text[0])
 
     splitted_text2 = [x for x in splitted_text[1].split(";")]
-    print(splitted_text2)
     for i in range(len(splitted_text2)):
         splitted_text2[i] = [x for x in splitted_text2[i].split()]
 
