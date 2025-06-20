@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+import datetime
 
 G_Code_Move_Commands = {
     "linear": "G1",
@@ -116,7 +117,7 @@ def write_new_commands(text):
     return new_text
 
 def write_to_file(text):
-    open("test.gcode", "w").write(text)
+    open(str(input("Name file: ")) + ".gcode", "w").write(text)
 
 if __name__ == "__main__":
     input_file = read_file()
